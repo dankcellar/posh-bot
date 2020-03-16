@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "Gmail Quick Copy Email",
-  "description": "Scans gmail for emails to copy and add to the clipboard",
+  "name": "Poshify",
+  "description": "Shh...",
   "version": "1.0",
   "background": {
     "scripts": ["background.js"]
   },
   "content_scripts": [
     {
-      "matches": ["*://mail.google.com/*"],
+      "matches": ["*://postmark.com/closet/*"],
       "js": ["jquery-3.4.1.slim.min.js", "content.js"]
     }
   ],
