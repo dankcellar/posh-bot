@@ -40,24 +40,18 @@ function startSharing() {
   const elems = $(".share");
   elems.each(function(index, element) {
     setTimeout(() => {
-      element.focus();
       element.style.backgroundColor = "yellow";
       element.style.color = "yellow";
-      // element.innerText = 'Helll'
+      element.focus();
       element.click();
       setTimeout(() => {
         const share = $(".pm-followers-share-link").get(0);
-        console.log(share);
         share.focus();
         share.click();
       }, getRandomInt(750, 1250));
       counter++;
+      if (counter === elems.length) running = false;
     }, getRandomInt(2000, 3000) * (index + 1));
-  });
-
-  const interval = setInterval(() => {
-    if (counter === elems.length) running = false;
-    if (!running) clearInterval(interval);
   });
 }
 

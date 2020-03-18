@@ -17,5 +17,5 @@
     "default_title": "Poshify",
     "default_popup": "popup.html"
   },
-  "permissions": ["activeTab", "declarativeContent", "tabs"]
+  "permissions": ["declarativeContent", "tabs"]
 }
