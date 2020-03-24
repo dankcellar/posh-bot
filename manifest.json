@@ -9,7 +9,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://poshmark.com/closet/*"],
+      "matches": ["*://poshmark.com/closet/gottahaveit66"],
       "js": ["jquery-3.4.1.slim.min.js", "content.js"]
     }
   ],

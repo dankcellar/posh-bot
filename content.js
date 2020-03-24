@@ -2,6 +2,7 @@
 
 let running = false;
 let shouldRun = false;
+let searchClass = ".pm-party-share-link";
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log(
@@ -9,11 +10,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       ? "from a content script:" + sender.tab.url
       : "from the extension"
   );
-  if (request.type === "toggle") {
-    shouldRun = !shouldRun;
-    sendResponse({ shouldRun });
-  }
+    getClassByType(request.type)
+    shouldRun = request.toggle;
+    sendResponse({ request });
 });
+
+function getClassByType(type) {
+  if (type === "party") searchClass = ".pm-party-share-link";
+  else if (type === "follow") searchClass = ".pm-followers-share-link";
+  else searchClass = null;
+}
 
 function shuffle(arra1) {
   var ctr = arra1.length,
@@ -46,14 +52,14 @@ function startSharing() {
         element.focus();
         element.click();
         setTimeout(() => {
-          const share = $(".pm-followers-share-link").get(0);
+          const share = $(searchClass).get(0);
           share.focus();
           share.click();
-        }, getRandomInt(750, 1250));
+        }, getRandomInt(1500, 2000));
       }
       counter++;
       if (counter === elems.length) running = false;
-    }, getRandomInt(2000, 3000) * (index + 1));
+    }, getRandomInt(1500, 2000) * (index + 1));
   });
 }
 
