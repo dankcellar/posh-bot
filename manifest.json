@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Poshify",
-  "description": "Shh...",
-  "version": "1.0",
+  "name": "Posh Utility Belt",
+  "description": "Posh extension that provides utility functionality",
+  "version": "1.1",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -14,7 +14,7 @@
     }
   ],
   "page_action": {
-    "default_title": "Poshify",
+    "default_title": "Posh Utility Belt",
     "default_popup": "popup.html"
   },
   "permissions": ["declarativeContent", "tabs"]
