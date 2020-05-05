@@ -2,17 +2,18 @@
 
 let running = false;
 let shouldRun = false;
-let searchClass = ".pm-party-share-link";
+let searchClass = null;
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log(
     sender.tab
       ? "from a content script:" + sender.tab.url
       : "from the extension"
   );
-    getClassByType(request.type)
-    shouldRun = request.toggle;
-    sendResponse({ request });
+  console.log(request)
+  getClassByType(request.type);
+  shouldRun = request.toggle;
+  sendResponse({ request });
 });
 
 function getClassByType(type) {
@@ -44,15 +45,16 @@ function getRandomInt(min, max) {
 function startSharing() {
   let counter = 0;
   const elems = $(".share");
-  elems.each(function(index, element) {
+  elems.each(function (index, element) {
     setTimeout(() => {
-      if (shouldRun) {
+      if (shouldRun && searchClass) {
         element.style.backgroundColor = "yellow";
         element.style.color = "yellow";
         element.focus();
         element.click();
         setTimeout(() => {
           const share = $(searchClass).get(0);
+          console.log(share, searchClass);
           share.focus();
           share.click();
         }, getRandomInt(1500, 2000));
