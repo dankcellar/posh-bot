@@ -74,7 +74,7 @@ function startSharing(elems) {
           }
         }, 2500);
       }
-    }, 2500);
+    }, 2500 * index + 1);
   });
 }
 
@@ -92,7 +92,7 @@ function startInterval() {
     } else {
       scrollToElement(elems.last());
     }
-    if (goodChecks === 5) {
+    if (goodChecks === 3) {
       clearInterval(checkerInterval);
       startSharing(elems);
     }

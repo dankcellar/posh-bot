@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Posh Utility Belt",
   "description": "Posh extension that provides utility functionality",
-  "version": "1.3",
+  "version": "1.4",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
