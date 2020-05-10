@@ -5,6 +5,7 @@ let shouldRun = false;
 let searchClass = null;
 let lastCount = 0;
 let goodChecks = 0;
+let numLoops = 11;
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log(
@@ -55,26 +56,38 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 function startSharing(elems) {
   // const elems = $(".share");
+  let total = 0;
+  let counter = 0;
   elems.each(function (index, element) {
-    setTimeout(() => {
-      if (shouldRun && searchClass) {
-        element.style.backgroundColor = "yellow";
-        element.style.color = "yellow";
-        element.focus();
-        element.click();
-        setTimeout(() => {
-          //console.log(index, shouldRun, searchClass);
-          if (shouldRun && searchClass) {
-            const share = $(searchClass);
-            if (share) {
-              const htmlElem = share.get(0);
-              htmlElem.focus();
-              htmlElem.click();
+    const countElem = $('<span class="count">0</span>');
+    countElem.insertAfter(element);
+    for (let i = 0; i < numLoops; i += 1) {
+      setTimeout(() => {
+        if (shouldRun && searchClass) {
+          element.style.backgroundColor = "yellow";
+          element.style.color = "yellow";
+          element.in;
+          element.focus();
+          element.click();
+          setTimeout(() => {
+            //console.log(index, shouldRun, searchClass);
+            if (shouldRun && searchClass) {
+              const share = $(searchClass);
+              if (share) {
+                const htmlElem = share.get(0);
+                htmlElem.focus();
+                htmlElem.click();
+                countElem.text(`${i + 1}`);
+                ++counter;
+                if (counter == total) {
+                  startInterval();
+                }
+              }
             }
-          }
-        }, 2500);
-      }
-    }, 2500 * index + 1);
+          }, 2500);
+        }
+      }, 2500 * ++total);
+    }
   });
 }
 
@@ -92,7 +105,7 @@ function startInterval() {
     } else {
       scrollToElement(elems.last());
     }
-    if (goodChecks === 3) {
+    if (goodChecks === 2) {
       clearInterval(checkerInterval);
       startSharing(elems);
     }
