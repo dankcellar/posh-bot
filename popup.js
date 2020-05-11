@@ -50,3 +50,6 @@ followButton.on("click", function () {
     followElem.style.backgroundColor = "steelblue";
   }
 });
+
+const version = chrome.runtime.getManifest().version
+const versionText = $("#versionText").text(`Version: ${version}`);

@@ -5,7 +5,7 @@ let shouldRun = false;
 let searchClass = null;
 let lastCount = 0;
 let goodChecks = 0;
-let numLoops = 11;
+let numLoops = 0;
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log(
@@ -16,12 +16,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log(request);
 
   shouldRun = request.toggle;
-  if (request.type === "party") {
+  if (request.type === "party") {    
     searchClass = ".pm-party-share-link";
-  } else if (request.type === "follow") {
+    numLoops = 10;
+  } else if (request.type === "follow") {    
     searchClass = ".pm-followers-share-link";
-  } else {
+    numLoops = 1;
+  } else {    
     searchClass = null;
+    numLoops = 0
   }
 
   if (shouldRun) {
