@@ -6,6 +6,7 @@ let searchClass = null;
 let lastCount = 0;
 let goodChecks = 0;
 let numLoops = 0;
+let shouldLoop = false;
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log(
@@ -16,15 +17,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log(request);
 
   shouldRun = request.toggle;
-  if (request.type === "party") {    
+  if (request.type === "party") {
     searchClass = ".pm-party-share-link";
     numLoops = 10;
-  } else if (request.type === "follow") {    
+    shouldLoop = true;
+  } else if (request.type === "follow") {
     searchClass = ".pm-followers-share-link";
     numLoops = 1;
-  } else {    
+    shouldLoop = false;
+  } else {
     searchClass = null;
-    numLoops = 0
+    // numLoops = 0;
   }
 
   if (shouldRun) {
@@ -36,19 +39,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   sendResponse({ request });
 });
 
-// function shuffle(arra1) {
-//   var ctr = arra1.length,
-//     temp,
-//     index;
-//   while (ctr > 0) {
-//     index = Math.floor(Math.random() * ctr);
-//     ctr--;
-//     temp = arra1[ctr];
-//     arra1[ctr] = arra1[index];
-//     arra1[index] = temp;
-//   }
-//   return arra1;
-// }
+function shuffle(array) {
+  var currentIndex = array.length;
+  var temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
 
 // function getRandomInt(min, max) {
 //   // The maximum is exclusive and the minimum is inclusive
@@ -57,8 +59,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 //   return Math.floor(Math.random() * (max - min)) + min;
 // }
 
-function startSharing(elems) {
+function startSharing(_elems) {
   // const elems = $(".share");
+  const elems = !shouldLoop ? shuffle(_elems) : _elems;
   let total = 0;
   let counter = 0;
   elems.each(function (index, element) {
@@ -82,7 +85,7 @@ function startSharing(elems) {
                 htmlElem.click();
                 countElem.text(`${i + 1}`);
                 ++counter;
-                if (counter == total) {
+                if (counter == total && shouldLoop) {
                   startInterval();
                 }
               }
