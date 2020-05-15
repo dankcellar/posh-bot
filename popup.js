@@ -9,47 +9,45 @@ function sendMessage(message) {
   });
 }
 
-const partyButton = $("#partyButton");
-const followButton = $("#followButton");
-const partyElem = partyButton.get(0);
-const followElem = followButton.get(0);
 let partyOn = false;
 let followOn = false;
 
-partyButton.text("Turn On Party Mode");
-followButton.text("Turn On Follow Mode");
-partyElem.style.color = "whitesmoke";
-followElem.style.color = "whitesmoke";
-partyElem.style.backgroundColor = "steelblue";
-followElem.style.backgroundColor = "steelblue";
+const followButton = $("#followButton");
+const partyButton = $("#partyButton");
+followButton.text("Toggle Follow Mode");
+partyButton.text("Toggle Party Mode");
 
-partyButton.on("click", function () {
-  sendMessage({ type: "party", toggle: !partyOn });
-  partyOn = !partyOn;
-  if (partyOn) {
-    partyButton.text("Party Mode On!!!");
-    partyElem.style.backgroundColor = "seagreen";
-    followButton.text("Turn On Follow Mode");
-    followElem.style.backgroundColor = "steelblue";
-  } else {
-    partyButton.text("Turn On Party Mode");
-    partyElem.style.backgroundColor = "steelblue";
-  }
-});
-
-followButton.on("click", function () {
-  sendMessage({ type: "follow", toggle: !followOn });
+followButton.on("click", function (event) {
+  event.preventDefault();
   followOn = !followOn;
+  sendMessage({ type: "follow", toggle: followOn });
   if (followOn) {
-    followButton.text("Follow Mode On!!!");
-    followElem.style.backgroundColor = "seagreen";
-    partyButton.text("Turn On Party Mode");
-    partyElem.style.backgroundColor = "steelblue";
+    followButton.text("Follow Mode On");
+    followButton.addClass("pure-button-active");
+
+    partyButton.text("Toggle Party Mode");
+    partyButton.removeClass("pure-button-active");
   } else {
-    followButton.text("Turn On Follow Mode");
-    followElem.style.backgroundColor = "steelblue";
+    followButton.text("Toggle Follow Mode");
+    followButton.removeClass("pure-button-active");
   }
 });
 
-const version = chrome.runtime.getManifest().version
+partyButton.on("click", function (event) {
+  event.preventDefault();
+  partyOn = !partyOn;
+  sendMessage({ type: "party", toggle: partyOn });
+  if (partyOn) {
+    partyButton.text("Party Mode On");
+    partyButton.addClass("pure-button-active");
+
+    followButton.text("Toggle Follow Mode");
+    followButton.removeClass("pure-button-active");
+  } else {
+    partyButton.text("Toggle Party Mode");
+    partyButton.removeClass("pure-button-active");
+  }
+});
+
+const version = chrome.runtime.getManifest().version;
 const versionText = $("#versionText").text(`Version: ${version}`);
