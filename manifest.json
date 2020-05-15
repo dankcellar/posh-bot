@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Posh Utility Belt",
-  "description": "Posh extension that provides utility functionality",
-  "version": "1.7",
+  "description": "A Poshmark extension that provides utility functionality to users for managing and making sales through Poshmark",
+  "version": "2.0",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -10,12 +10,13 @@
   "content_scripts": [
     {
       "matches": ["*://poshmark.com/closet/*"],
-      "js": ["jquery-3.4.1.slim.min.js", "content.js"]
+      "js": ["jquery.slim.min.js", "content.js"]
     }
   ],
   "page_action": {
     "default_title": "Posh Utility Belt",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "robot.png"
   },
   "permissions": ["declarativeContent", "tabs"]
 }

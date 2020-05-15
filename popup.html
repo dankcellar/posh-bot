@@ -1,18 +1,42 @@
 <html>
   <head>
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600"
-      rel="stylesheet"
-    />
     <title>Poshify</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Posh Utility Tool" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+    />
   </head>
-  <body style="width: 360px;">
-    <div>
-      <button id="followButton"></button>
-      <button id="partyButton"></button>
-    </div>
-    <p id="versionText">Verison: ---</p>
-    <script src="jquery-3.4.1.slim.min.js"></script>
+
+  <body style="width: 100%;">
+    <form class="pure-form pure-form-aligned" style="margin: 15px;">
+      <fieldset>
+        <legend>Posh Utility Tool</legend>
+        <div class="pure-control-group">
+          <button
+            id="followButton"
+            class="pure-button"
+          ></button>
+        </div>
+        <div class="pure-control-group">
+          <button
+            id="partyButton"
+            class="pure-button"
+          ></button>
+        </div>
+        <div class="pure-control-group">
+          <label id="versionText">Verison: ---</label>
+        </div>
+      </fieldset>
+    </form>
+
+    <script src="jquery.slim.min.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
