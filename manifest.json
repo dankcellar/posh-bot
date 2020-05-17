@@ -4,7 +4,15 @@
   "short_name": "Poshify",
   "description": "A Poshmark extension that provides utility functionality to users for managing and making sales through Poshmark",
   "version": "2.1",
-  "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
+  "icons": {
+    "16": "public/icon16.png",
+    "48": "public/icon48.png",
+    "128": "public/icon128.png"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "content_scripts": [
     {
       "matches": ["https://poshmark.com/closet/*"],
@@ -13,8 +21,7 @@
   ],
   "page_action": {
     "default_title": "Posh Utility Belt",
-    "default_popup": "popup.html",
-    "default_icon": "icon128.png"
+    "default_popup": "public/popup.html"
   },
-  "permissions": ["tabs"]
+  "permissions": ["declarativeContent", "tabs"]
 }

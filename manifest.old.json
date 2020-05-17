@@ -17,7 +17,7 @@
   ],
   "page_action": {
     "default_title": "Posh Utility Belt",
-    "default_popup": "popup.html",
+    "default_popup": "public/popup.html",
     "default_icon": "icon128.png"
   },
   "permissions": ["declarativeContent", "tabs"]
