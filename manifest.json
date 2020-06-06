@@ -15,7 +15,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://poshmark.com/*"],
+      "matches": ["*://poshmark.com/closet/*"],
       "js": ["jquery.slim.min.js", "content.js"]
     }
   ],
