@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(function () {
         conditions: [
           new chrome.declarativeContent.PageStateMatcher({
             pageUrl: {
-              urlMatches: "(http|https):\/\/poshmark.com\/closet\/.*",
+              urlMatches: "(http|https)://poshmark.com/closet/.*",
             },
           }),
         ],

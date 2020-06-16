@@ -9,12 +9,7 @@ let numLoops = 0;
 let shouldLoop = false;
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  // console.log(
-  //   sender.tab
-  //     ? "from a content script:" + sender.tab.url
-  //     : "from the extension"
-  // );
-  console.log(request);
+  console.log(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
 
   shouldRun = request.toggle;
   if (request.type === "party") {
@@ -27,7 +22,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     shouldLoop = false;
   } else {
     searchClass = null;
-    // numLoops = 0;
+    numLoops = 0;
+    shouldLoop = false;
   }
 
   if (shouldRun) {
@@ -72,7 +68,6 @@ function startSharing(_elems) {
         if (shouldRun && searchClass) {
           element.style.backgroundColor = "yellow";
           element.style.color = "yellow";
-          element.in;
           element.focus();
           element.click();
           setTimeout(() => {
@@ -84,9 +79,9 @@ function startSharing(_elems) {
                 htmlElem.focus();
                 htmlElem.click();
                 countElem.text(`${i + 1}`);
-                ++counter;
+                counter += 1;
                 if (counter == total && shouldLoop) {
-                  startInterval();
+                  startSharing(_elems);
                 }
               }
             }
