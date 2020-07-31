@@ -7,12 +7,12 @@ let goodChecks = 0
 const DATA = {
   follow: {
     toggle: false,
-    search: '[data-et-name="share_poshmark"]',
+    search: '.pm-followers-share-link',
     loops: 1,
   },
   party: {
     toggle: false,
-    search: '[data-et-name="share_poshmark_poshparty"]',
+    search: '.pm-party-share-link',
     loops: 10,
   },
 }
@@ -48,15 +48,15 @@ const shuffle = (array) => {
   return array
 }
 
-const createCounter = (elem) => {
-  const countElem = elem.closest('span.count')
-  if (countElem.length > 0) {
-    // countElem.text(`${i + 1}`)
-  } else {
-    const countElem = $('<span class="count">0</span>')
-    countElem.insertAfter(element)
-  }
-}
+// const createCounter = (elem) => {
+//   const countElem = elem.closest('span.count')
+//   if (countElem.length > 0) {
+//     countElem.text(`${i + 1}`)
+//   } else {
+//     const countElem = $('<span class="count">0</span>')
+//     countElem.insertAfter(element)
+//   }
+// }
 
 const getLoops = () => {
   if (DATA.follow.toggle) return DATA.follow.loops
@@ -73,18 +73,18 @@ const searchClass = () => {
 const startSharing = (_elems) => {
   let total = 0
   let counter = 0
-  const elems = DATA.party.toggle ? shuffle(_elems) : _elems
+  const elems = DATA.follow.toggle ? shuffle(_elems) : _elems
   elems.each((index, element) => {
     for (let i = 0; i < getLoops(); ++i) {
       setTimeout(() => {
         if (DATA.follow.toggle || DATA.party.toggle) {
-          scrollToElement(element)
+          element.style.backgroundColor = 'yellow'
           element.click()
           setTimeout(() => {
             const share = searchClass()
             if (share) {
               share.get(0).click()
-              if (total === counter++) {
+              if (total === counter++ && DATA.party.toggle) {
                 startSharing(_elems)
               }
             }
@@ -99,13 +99,13 @@ const startInterval = () => {
   lastCount = 0
   goodChecks = 0
 
-  const radioToggle = $('[data-et-name="availability"]')[1]
-  radioToggle.click()
+  const radioToggle = $('#availability-available')
+  radioToggle.get(0).click()
 
   checkerInterval = setInterval(() => {
-    const elems = $('[data-et-name="share"')
+    const elems = $('.share')
     if (lastCount === elems.length) ++goodChecks
-    else scrollToElement(elems.last())
+    else elems.last().get(0).scrollIntoView()
 
     if (goodChecks === 2) {
       clearInterval(checkerInterval)
@@ -113,8 +113,4 @@ const startInterval = () => {
     }
     lastCount = elems.length
   }, 2500)
-}
-
-const scrollToElement = (elem) => {
-  elem.get(0).scrollIntoView()
 }
