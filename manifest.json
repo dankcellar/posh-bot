@@ -3,7 +3,7 @@
   "name": "Poshmark Utility Belt",
   "short_name": "Poshify",
   "description": "A Poshmark extension that provides utility functionality to users for managing and making sales through Poshmark",
-  "version": "2.6",
+  "version": "2.7",
   "icons": {
     "16": "public/icon16.png",
     "48": "public/icon48.png",
