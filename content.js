@@ -84,7 +84,7 @@ const startSharing = (_elems) => {
             const share = searchClass()
             if (share) {
               share.get(0).click()
-              if (total === counter++ && DATA.party.toggle) {
+              if (total === ++counter && DATA.party.toggle) {
                 startSharing(_elems)
               }
             }
