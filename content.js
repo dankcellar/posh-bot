@@ -7,12 +7,10 @@ let goodChecks = 0
 const DATA = {
   follow: {
     toggle: false,
-    search: '.pm-followers-share-link',
     loops: 1,
   },
   party: {
     toggle: false,
-    search: '.pm-party-share-link',
     loops: 10,
   },
 }
@@ -65,8 +63,8 @@ const getLoops = () => {
 }
 
 const searchClass = () => {
-  if (DATA.follow.toggle) return $(DATA.follow.search)
-  if (DATA.party.toggle) return $(DATA.party.search)
+  if (DATA.follow.toggle) return $('.modal').find('a[class*="share"] div[class*="party"]').closest('a[class*="share"]')
+  if (DATA.party.toggle) return $('.modal').find('a[class*="share"] div[class*="party"]').closest('a[class*="share"]')
   return null
 }
 
@@ -74,16 +72,17 @@ const startSharing = (_elems) => {
   let total = 0
   let counter = 0
   const elems = DATA.follow.toggle ? shuffle(_elems) : _elems
-  elems.each((index, element) => {
+  elems.each((index, _element) => {
+    const element = $(_element).closest('.card, .tile').find('div[class*="share"]')
     for (let i = 0; i < getLoops(); ++i) {
       setTimeout(() => {
         if (DATA.follow.toggle || DATA.party.toggle) {
-          element.style.backgroundColor = 'yellow'
-          element.click()
+          element.css('backgroundColor', 'yellow')
+          element.trigger('click')
           setTimeout(() => {
             const share = searchClass()
-            if (share) {
-              share.get(0).click()
+            if (share.length > 0) {
+              share.find(':first-child').trigger('click')
               if (total === ++counter && DATA.party.toggle) {
                 startSharing(_elems)
               }
@@ -99,11 +98,12 @@ const startInterval = () => {
   lastCount = 0
   goodChecks = 0
 
-  const radioToggle = $('#availability-available')
+  const radioToggle = $('input[value*="available"]')
   radioToggle.get(0).click()
 
   checkerInterval = setInterval(() => {
-    const elems = $('.share')
+    const elems = $('a[href*="/listing/"] img')
+
     if (lastCount === elems.length) ++goodChecks
     else elems.last().get(0).scrollIntoView()
 
