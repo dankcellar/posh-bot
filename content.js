@@ -3,6 +3,7 @@
 let checkerInterval = null
 let lastCount = 0
 let goodChecks = 0
+let activeIntervals = []
 
 const DATA = {
   follow: {
@@ -63,8 +64,16 @@ const getLoops = () => {
 }
 
 const searchClass = () => {
-  if (DATA.follow.toggle) return $('.modal').find('a[class*="share"] div[class*="party"]').closest('a[class*="share"]')
-  if (DATA.party.toggle) return $('.modal').find('a[class*="share"] div[class*="party"]').closest('a[class*="share"]')
+  if (DATA.follow.toggle) {
+    const share = $('.modal a[href*="/listing/"]').get(0)
+    // return $(share).find('[value*="follow"]')
+    return $(share).find('div').first()
+  }
+  if (DATA.party.toggle) {
+    $('.modal a[href*="/listing/"]').get(1)
+    // return $(share).find('[value*="party"]')
+    return $(share).find('div').first()
+  }
   return null
 }
 
@@ -73,23 +82,28 @@ const startSharing = (_elems) => {
   let counter = 0
   const elems = DATA.follow.toggle ? shuffle(_elems) : _elems
   elems.each((index, _element) => {
-    const element = $(_element).closest('.card, .tile').find('div[class*="share"]')
+    const element = $(_element).closest('div[class*="col"]').find('li').last().find('a')
     for (let i = 0; i < getLoops(); ++i) {
-      setTimeout(() => {
-        if (DATA.follow.toggle || DATA.party.toggle) {
-          element.css('backgroundColor', 'yellow')
-          element.trigger('click')
-          setTimeout(() => {
-            const share = searchClass()
-            if (share.length > 0) {
-              share.find(':first-child').trigger('click')
-              if (total === ++counter && DATA.party.toggle) {
-                startSharing(_elems)
-              }
-            }
-          }, 2500)
-        }
-      }, 2500 * ++total)
+      activeIntervals.push(
+        setTimeout(() => {
+          if (DATA.follow.toggle || DATA.party.toggle) {
+            element.css('backgroundColor', 'yellow')
+            element.get(0).click()
+            activeIntervals.push(
+              setTimeout(() => {
+                const share = searchClass()
+                console.log(share)
+                if (share.length > 0) {
+                  share.get(0).click()
+                  if (total === ++counter && DATA.party.toggle) {
+                    startSharing(_elems)
+                  }
+                }
+              }, 3000)
+            )
+          }
+        }, 3000 * ++total)
+      )
     }
   })
 }
