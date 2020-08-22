@@ -65,13 +65,11 @@ const getLoops = () => {
 
 const searchClass = () => {
   if (DATA.follow.toggle) {
-    const share = $('.modal a[href*="/listing/"]').get(0)
-    // return $(share).find('[value*="follow"]')
+    const share = $('.modal a[href*="/listing/share?"]').get(0)
     return $(share).find('div').first()
   }
   if (DATA.party.toggle) {
-    $('.modal a[href*="/listing/"]').get(1)
-    // return $(share).find('[value*="party"]')
+    const share = $('.modal a[href*="/listing/share?"]').get(1)
     return $(share).find('div').first()
   }
   return null
@@ -92,7 +90,7 @@ const startSharing = (_elems) => {
             activeIntervals.push(
               setTimeout(() => {
                 const share = searchClass()
-                console.log(share)
+                // console.log(share)
                 if (share.length > 0) {
                   share.get(0).click()
                   if (total === ++counter && DATA.party.toggle) {
