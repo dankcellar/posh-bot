@@ -65,11 +65,11 @@ const getLoops = () => {
 
 const searchClass = () => {
   if (DATA.follow.toggle) {
-    const share = $('.modal a[href*="/listing/share?"]').get(0)
+    const share = $('.modal a').get(0)
     return $(share).find('div').first()
   }
   if (DATA.party.toggle) {
-    const share = $('.modal a[href*="/listing/share?"]').get(1)
+    const share = $('.modal a').get(1)
     return $(share).find('div').first()
   }
   return null
@@ -80,7 +80,7 @@ const startSharing = (_elems) => {
   let counter = 0
   const elems = DATA.follow.toggle ? shuffle(_elems) : _elems
   elems.each((index, _element) => {
-    const element = $(_element).closest('div[class*="col"]').find('li').last().find('a')
+    const element = $(_element).closest('div[class*="col"]').find('i').last()
     for (let i = 0; i < getLoops(); ++i) {
       activeIntervals.push(
         setTimeout(() => {
