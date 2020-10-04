@@ -76,7 +76,6 @@ const searchClass = () => {
 }
 
 const startSharing = (_elems) => {
-  console.info('SHARING STARTED')
   let total = 0
   let counter = 0
   const elems = DATA.follow.toggle ? shuffle(_elems) : _elems
@@ -91,10 +90,10 @@ const startSharing = (_elems) => {
           // activeIntervals.push(
           setTimeout(() => {
             const share = searchClass()
-            console.info('STATUS', total, counter, counter === total - 1 && DATA.party.toggle)
+            // console.info('STATUS', total, counter, counter + 1 === total - 1 && DATA.party.toggle)
             if (share.length > 0) {
               share.get(0).click()
-              if (counter === total - 1 && DATA.party.toggle) {
+              if (counter + 1 === total && DATA.party.toggle) {
                 startSharing(_elems)
               }
             }
