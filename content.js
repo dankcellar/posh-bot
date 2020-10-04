@@ -3,7 +3,7 @@
 let checkerInterval = null
 let lastCount = 0
 let goodChecks = 0
-let activeIntervals = []
+// let activeIntervals = []
 
 const DATA = {
   follow: {
@@ -12,7 +12,7 @@ const DATA = {
   },
   party: {
     toggle: false,
-    loops: 10,
+    loops: 1,
   },
 }
 
@@ -76,32 +76,34 @@ const searchClass = () => {
 }
 
 const startSharing = (_elems) => {
+  console.info('SHARING STARTED')
   let total = 0
   let counter = 0
   const elems = DATA.follow.toggle ? shuffle(_elems) : _elems
   elems.each((index, _element) => {
     const element = $(_element).closest('div[class*="col"]').find('i').last()
     for (let i = 0; i < getLoops(); ++i) {
-      activeIntervals.push(
-        setTimeout(() => {
-          if (DATA.follow.toggle || DATA.party.toggle) {
-            element.css('backgroundColor', 'yellow')
-            element.get(0).click()
-            activeIntervals.push(
-              setTimeout(() => {
-                const share = searchClass()
-                // console.log(share)
-                if (share.length > 0) {
-                  share.get(0).click()
-                  if (total === ++counter && DATA.party.toggle) {
-                    startSharing(_elems)
-                  }
-                }
-              }, 3000)
-            )
-          }
-        }, 3000 * ++total)
-      )
+      // activeIntervals.push(
+      setTimeout(() => {
+        if (DATA.follow.toggle || DATA.party.toggle) {
+          element.css('backgroundColor', 'yellow')
+          element.get(0).click()
+          // activeIntervals.push(
+          setTimeout(() => {
+            const share = searchClass()
+            console.info('STATUS', total, counter, counter === total - 1 && DATA.party.toggle)
+            if (share.length > 0) {
+              share.get(0).click()
+              if (counter === total - 1 && DATA.party.toggle) {
+                startSharing(_elems)
+              }
+            }
+            ++counter
+          }, 1500)
+          // )
+        }
+      }, 3000 * ++total)
+      // )
     }
   })
 }
