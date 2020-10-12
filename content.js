@@ -12,7 +12,7 @@ const DATA = {
   },
   party: {
     toggle: false,
-    loops: 1,
+    loops: 10,
   },
 }
 
