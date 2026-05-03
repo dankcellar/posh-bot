@@ -1,12 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Poshmark Utility Belt",
+  "name": "Poshify",
   "short_name": "Poshify",
-  "description": "A Poshmark extension that provides utility functionality to users for managing and making sales through Poshmark",
-  "version": "2.15",
+  "description": "Automatically share your entire Poshmark closet to followers or Posh Parties in one click — Follow Mode, Party Mode, zero hassle.",
+  "version": "3.1",
   "icons": {
-    "16": "public/icon16.png",
-    "48": "public/icon48.png",
     "128": "public/icon128.png"
   },
   "background": {
@@ -19,7 +17,7 @@
     }
   ],
   "action": {
-    "default_title": "Posh Utility Belt",
+    "default_title": "Poshify",
     "default_popup": "public/popup.html"
   },
   "permissions": ["declarativeContent", "tabs"]

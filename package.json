@@ -4,12 +4,16 @@
   "description": "Posh share bot",
   "main": "content.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "bestzip extension.zip manifest.json background.js content.js public/"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/chrome": "0.0.100",
     "@types/jquery": "^3.3.33"
+  },
+  "devDependencies": {
+    "bestzip": "^2.2.3"
   }
 }

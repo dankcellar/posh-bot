@@ -1,4 +1,4 @@
-# Poshmark Utility Belt
+# Poshify
 
 A Chrome extension (Manifest V3) that automates sharing listings from a Poshmark closet. Supports two modes:
 
