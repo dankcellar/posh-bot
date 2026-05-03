@@ -3,31 +3,21 @@
 let checkerInterval = null
 let lastCount = 0
 let goodChecks = 0
-// let activeIntervals = []
 
 const DATA = {
-  follow: {
-    toggle: false,
-    loops: 1,
-  },
-  party: {
-    toggle: false,
-    loops: 10,
-  },
+  follow: { toggle: false, loops: 1 },
+  party: { toggle: false, loops: 10 },
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  // console.log(sender.tab ? 'from a content script:' + sender.tab.url : 'from the extension')
   if (request.type === 'follow') {
     DATA.follow.toggle = !DATA.follow.toggle
     DATA.party.toggle = false
   }
-
   if (request.type === 'party') {
     DATA.follow.toggle = false
     DATA.party.toggle = !DATA.party.toggle
   }
-
   sendResponse({ follow: DATA.follow.toggle, party: DATA.party.toggle })
   if (request.type) {
     if (DATA.follow.toggle || DATA.party.toggle) startInterval()
@@ -36,26 +26,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 })
 
 const shuffle = (array) => {
-  var currentIndex = array.length
-  var temporaryValue, randomIndex
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex--)
-    temporaryValue = array[currentIndex]
-    array[currentIndex] = array[randomIndex]
-    array[randomIndex] = temporaryValue
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
   }
   return array
 }
-
-// const createCounter = (elem) => {
-//   const countElem = elem.closest('span.count')
-//   if (countElem.length > 0) {
-//     countElem.text(`${i + 1}`)
-//   } else {
-//     const countElem = $('<span class="count">0</span>')
-//     countElem.insertAfter(element)
-//   }
-// }
 
 const getLoops = () => {
   if (DATA.follow.toggle) return DATA.follow.loops
@@ -64,45 +40,34 @@ const getLoops = () => {
 }
 
 const searchClass = () => {
-  if (DATA.follow.toggle) {
-    const share = $('.modal a').get(0)
-    return $(share).find('div').first()
-  }
-  if (DATA.party.toggle) {
-    const share = $('.modal a').get(1)
-    return $(share).find('div').first()
-  }
-  return null
+  const links = document.querySelectorAll('.modal a')
+  const share = DATA.follow.toggle ? links[0] : DATA.party.toggle ? links[1] : null
+  return share?.querySelector('div') ?? null
 }
 
 const startSharing = (_elems) => {
   let total = 0
   let counter = 0
-  const elems = DATA.follow.toggle ? shuffle(_elems) : _elems
-  elems.each((index, _element) => {
-    const element = $(_element).closest('div[class*="col"]').find('i').last()
+  const elems = DATA.follow.toggle ? shuffle([..._elems]) : _elems
+  elems.forEach((_element) => {
+    const col = _element.closest('div[class*="col"]')
+    const iElems = col.querySelectorAll('i')
+    const element = iElems[iElems.length - 1]
     for (let i = 0; i < getLoops(); ++i) {
-      // activeIntervals.push(
       setTimeout(() => {
         if (DATA.follow.toggle || DATA.party.toggle) {
-          element.css('backgroundColor', 'yellow')
-          element.get(0).click()
-          // activeIntervals.push(
+          element.style.backgroundColor = 'yellow'
+          element.click()
           setTimeout(() => {
             const share = searchClass()
-            // console.info('STATUS', total, counter, counter + 1 === total - 1 && DATA.party.toggle)
-            if (share.length > 0) {
-              share.get(0).click()
-              if (counter + 1 === total && DATA.party.toggle) {
-                startSharing(_elems)
-              }
+            if (share) {
+              share.click()
+              if (counter + 1 === total && DATA.party.toggle) startSharing(_elems)
             }
             ++counter
           }, 1500)
-          // )
         }
       }, 3000 * ++total)
-      // )
     }
   })
 }
@@ -110,19 +75,14 @@ const startSharing = (_elems) => {
 const startInterval = () => {
   lastCount = 0
   goodChecks = 0
-
-  const radioToggle = $('input[value*="available"]')
-  radioToggle.get(0).click()
-
+  document.querySelector('input[value*="available"]')?.click()
   checkerInterval = setInterval(() => {
-    const elems = $('a[href*="/listing/"] img')
-
+    const elems = document.querySelectorAll('a[href*="/listing/"] img')
     if (lastCount === elems.length) ++goodChecks
-    else elems.last().get(0).scrollIntoView()
-
+    else elems[elems.length - 1].scrollIntoView()
     if (goodChecks === 2) {
       clearInterval(checkerInterval)
-      startSharing(elems)
+      startSharing(Array.from(elems))
     }
     lastCount = elems.length
   }, 2500)

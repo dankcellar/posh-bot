@@ -1,23 +1,19 @@
 'use strict'
 
-const DATA = {
-  follow: {
-    true: 'Follow Mode Active!',
-    false: 'Toggle Follow Mode',
-    button: $('#followButton'),
-  },
-  party: {
-    true: 'Party Mode Active!',
-    false: 'Toggle Party Mode',
-    button: $('#partyButton'),
-  },
+const LABELS = {
+  follow: { true: 'Follow Mode Active!', false: 'Toggle Follow Mode' },
+  party: { true: 'Party Mode Active!', false: 'Toggle Party Mode' },
+}
+
+const buttons = {
+  follow: document.getElementById('followButton'),
+  party: document.getElementById('partyButton'),
 }
 
 const toggleActive = (type, toggle) => {
-  const elem = DATA[type].button
-  elem.text(DATA[type][toggle])
-  if (toggle) elem.addClass('pure-button-active')
-  else elem.removeClass('pure-button-active')
+  const btn = buttons[type]
+  btn.textContent = LABELS[type][toggle]
+  btn.classList.toggle('pure-button-active', toggle)
 }
 
 const sendMessage = (message) => {
@@ -30,16 +26,15 @@ const sendMessage = (message) => {
   })
 }
 
-DATA.follow.button.on('click', (event) => {
+buttons.follow.addEventListener('click', (event) => {
   event.preventDefault()
   sendMessage({ type: 'follow' })
 })
 
-DATA.party.button.on('click', (event) => {
+buttons.party.addEventListener('click', (event) => {
   event.preventDefault()
   sendMessage({ type: 'party' })
 })
 
-const version = chrome.runtime.getManifest().version
-const versionText = $('#versionText').text(`Version: ${version}`)
+document.getElementById('versionText').textContent = `Version: ${chrome.runtime.getManifest().version}`
 sendMessage({ type: null })
